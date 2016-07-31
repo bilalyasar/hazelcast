@@ -347,8 +347,7 @@ public class Node {
         }
         if (properties.getBoolean(DISCOVERY_SPI_ENABLED)) {
             discoveryService.start();
-
-
+            mergeEnvironmentProvidedMemberMetadata();
         }
 
         if (properties.getBoolean(SHUTDOWNHOOK_ENABLED)) {
@@ -356,8 +355,9 @@ public class Node {
             Runtime.getRuntime().addShutdownHook(shutdownHookThread);
         }
         state = NodeState.ACTIVE;
-
+        System.out.println("join started");
         nodeExtension.beforeJoin();
+
         join();
         if(properties.getBoolean(DISCOVERY_SPI_ENABLED)){
             // Discover local metadata from environment and merge into member attributes

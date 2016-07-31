@@ -43,10 +43,11 @@ public class ZoneAwareMemberGroupFactory extends BackupSafeMemberGroupFactory im
     }
 
     public ZoneAwareMemberGroupFactory() {
-        
+
     }
 
     private void mergeEnvironmentProvidedMemberMetadata(Member localMember) {
+        System.out.println(discoveryService);
         Map<String, Object> metadata = discoveryService.discoverLocalMetadata();
         for (Map.Entry<String, Object> entry : metadata.entrySet()) {
             Object value = entry.getValue();

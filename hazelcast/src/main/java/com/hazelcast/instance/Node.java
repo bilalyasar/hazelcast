@@ -361,6 +361,7 @@ public class Node {
         join();
         if(properties.getBoolean(DISCOVERY_SPI_ENABLED)){
             // Discover local metadata from environment and merge into member attributes
+            System.out.println("merge environment provided metada");
             mergeEnvironmentProvidedMemberMetadata();
         }
         int clusterSize = clusterService.getSize();

@@ -88,7 +88,12 @@ public class DefaultDiscoveryService
     public Map<String, Object> discoverLocalMetadata() {
         Map<String, Object> metadata = new HashMap<String, Object>();
         for (DiscoveryStrategy discoveryStrategy : discoveryStrategies) {
+            System.out.println("calling discoverLocalMetaData");
             metadata.putAll(discoveryStrategy.discoverLocalMetadata());
+            System.out.println("after calling metadata keys:");
+            for (String key : metadata.keySet()) {
+                System.out.println(key);
+            }
         }
         return metadata;
     }

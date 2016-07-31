@@ -30,6 +30,7 @@ import java.util.Set;
  * ZoneAwareMemberGroupFactory is responsible for MemberGroups
  * creation according to the host metadata provided by
  * {@link DiscoveryStrategy#discoverLocalMetadata()}
+ *
  * @since 3.7
  */
 
@@ -40,8 +41,9 @@ public class ZoneAwareMemberGroupFactory extends BackupSafeMemberGroupFactory im
         Map<String, MemberGroup> groups = new HashMap<String, MemberGroup>();
         System.out.println("member attributes:");
         for (Member member : allMembers) {
-            for(String key : member.getAttributes().keySet()){
+            for (String key : member.getAttributes().keySet()) {
                 System.out.println(key);
+                System.out.println(member.getAttributes().get(key));
 
             }
             final String zoneInfo = member.getStringAttribute(PartitionGroupMetaData.PARTITION_GROUP_ZONE);

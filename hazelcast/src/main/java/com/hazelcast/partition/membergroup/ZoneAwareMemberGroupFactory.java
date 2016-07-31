@@ -76,7 +76,7 @@ public class ZoneAwareMemberGroupFactory extends BackupSafeMemberGroupFactory im
         Map<String, MemberGroup> groups = new HashMap<String, MemberGroup>();
         System.out.println("member attributes:");
         for (Member member : allMembers) {
-            mergeEnvironmentProvidedMemberMetadata(member);
+            if(member.localMember()) mergeEnvironmentProvidedMemberMetadata(member);
             for (String key : member.getAttributes().keySet()) {
                 System.out.println(key);
                 System.out.println(member.getAttributes().get(key));

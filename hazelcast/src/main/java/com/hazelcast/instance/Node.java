@@ -185,11 +185,11 @@ public class Node {
 
             clientEngine = new ClientEngineImpl(this);
             connectionManager = nodeContext.createConnectionManager(this, serverSocketChannel);
+            discoveryService = createDiscoveryService(config);
             partitionService = new InternalPartitionServiceImpl(this);
             clusterService = new ClusterServiceImpl(this);
             textCommandService = new TextCommandServiceImpl(this);
             multicastService = createMulticastService(addressPicker.getBindAddress(), this, config, logger);
-            discoveryService = createDiscoveryService(config);
             joiner = nodeContext.createJoiner(this);
         } catch (Throwable e) {
             try {

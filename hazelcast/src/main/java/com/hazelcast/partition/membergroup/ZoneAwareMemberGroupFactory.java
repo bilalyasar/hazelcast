@@ -18,6 +18,7 @@ package com.hazelcast.partition.membergroup;
 
 import com.hazelcast.core.Member;
 import com.hazelcast.spi.discovery.DiscoveryStrategy;
+import com.hazelcast.spi.discovery.integration.DiscoveryService;
 import com.hazelcast.spi.partitiongroup.PartitionGroupMetaData;
 
 import java.util.Collection;
@@ -35,12 +36,46 @@ import java.util.Set;
  */
 
 public class ZoneAwareMemberGroupFactory extends BackupSafeMemberGroupFactory implements MemberGroupFactory {
+    DiscoveryService discoveryService;
+
+    public ZoneAwareMemberGroupFactory(DiscoveryService discoveryService) {
+        this.discoveryService = discoveryService;
+    }
+
+    public ZoneAwareMemberGroupFactory() {
+        
+    }
+
+    private void mergeEnvironmentProvidedMemberMetadata(Member localMember) {
+        Map<String, Object> metadata = discoveryService.discoverLocalMetadata();
+        for (Map.Entry<String, Object> entry : metadata.entrySet()) {
+            Object value = entry.getValue();
+            if (value instanceof Byte) {
+                localMember.setByteAttribute(entry.getKey(), (Byte) value);
+            } else if (value instanceof Short) {
+                localMember.setShortAttribute(entry.getKey(), (Short) value);
+            } else if (value instanceof Integer) {
+                localMember.setIntAttribute(entry.getKey(), (Integer) value);
+            } else if (value instanceof Long) {
+                localMember.setLongAttribute(entry.getKey(), (Long) value);
+            } else if (value instanceof Float) {
+                localMember.setFloatAttribute(entry.getKey(), (Float) value);
+            } else if (value instanceof Double) {
+                localMember.setDoubleAttribute(entry.getKey(), (Double) value);
+            } else if (value instanceof Boolean) {
+                localMember.setBooleanAttribute(entry.getKey(), (Boolean) value);
+            } else {
+                localMember.setStringAttribute(entry.getKey(), value.toString());
+            }
+        }
+    }
 
     @Override
     protected Set<MemberGroup> createInternalMemberGroups(Collection<? extends Member> allMembers) {
         Map<String, MemberGroup> groups = new HashMap<String, MemberGroup>();
         System.out.println("member attributes:");
         for (Member member : allMembers) {
+            mergeEnvironmentProvidedMemberMetadata(member);
             for (String key : member.getAttributes().keySet()) {
                 System.out.println(key);
                 System.out.println(member.getAttributes().get(key));

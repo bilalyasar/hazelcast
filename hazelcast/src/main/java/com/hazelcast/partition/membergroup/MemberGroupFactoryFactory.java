@@ -42,7 +42,7 @@ public final class MemberGroupFactoryFactory {
             case PER_MEMBER:
                 return new SingleMemberGroupFactory();
             case ZONE_AWARE:
-                return new ZoneAwareMemberGroupFactory();
+                return new ZoneAwareMemberGroupFactory(discoveryService);
             case SPI:
                 return new SPIAwareMemberGroupFactory(discoveryService);
             default:

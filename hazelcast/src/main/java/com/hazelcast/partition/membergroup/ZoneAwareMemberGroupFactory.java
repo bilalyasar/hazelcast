@@ -38,8 +38,12 @@ public class ZoneAwareMemberGroupFactory extends BackupSafeMemberGroupFactory im
     @Override
     protected Set<MemberGroup> createInternalMemberGroups(Collection<? extends Member> allMembers) {
         Map<String, MemberGroup> groups = new HashMap<String, MemberGroup>();
+        System.out.println("member attributes:");
         for (Member member : allMembers) {
+            for(String key : member.getAttributes().keySet()){
+                System.out.println(key);
 
+            }
             final String zoneInfo = member.getStringAttribute(PartitionGroupMetaData.PARTITION_GROUP_ZONE);
             final String rackInfo = member.getStringAttribute(PartitionGroupMetaData.PARTITION_GROUP_RACK);
             final String hostInfo = member.getStringAttribute(PartitionGroupMetaData.PARTITION_GROUP_HOST);

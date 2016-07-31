@@ -348,8 +348,7 @@ public class Node {
         if (properties.getBoolean(DISCOVERY_SPI_ENABLED)) {
             discoveryService.start();
 
-            // Discover local metadata from environment and merge into member attributes
-            mergeEnvironmentProvidedMemberMetadata();
+
         }
 
         if (properties.getBoolean(SHUTDOWNHOOK_ENABLED)) {
@@ -360,6 +359,10 @@ public class Node {
 
         nodeExtension.beforeJoin();
         join();
+        if(properties.getBoolean(DISCOVERY_SPI_ENABLED)){
+            // Discover local metadata from environment and merge into member attributes
+            mergeEnvironmentProvidedMemberMetadata();
+        }
         int clusterSize = clusterService.getSize();
         if (config.getNetworkConfig().isPortAutoIncrement()
                 && address.getPort() >= config.getNetworkConfig().getPort() + clusterSize) {

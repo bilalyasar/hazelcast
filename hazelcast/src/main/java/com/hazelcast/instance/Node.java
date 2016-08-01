@@ -190,7 +190,12 @@ public class Node {
             textCommandService = new TextCommandServiceImpl(this);
             multicastService = createMulticastService(addressPicker.getBindAddress(), this, config, logger);
             discoveryService = createDiscoveryService(config);
+            if (properties.getBoolean(DISCOVERY_SPI_ENABLED)) {
+                discoveryService.start();
+
+                // Discover local metadata from environment and merge into member attributes
             mergeEnvironmentProvidedMemberMetadata();
+            }
             joiner = nodeContext.createJoiner(this);
         } catch (Throwable e) {
             try {
@@ -345,12 +350,7 @@ public class Node {
                     hazelcastThreadGroup.getThreadNamePrefix("MulticastThread"));
             multicastServiceThread.start();
         }
-        if (properties.getBoolean(DISCOVERY_SPI_ENABLED)) {
-            discoveryService.start();
 
-            // Discover local metadata from environment and merge into member attributes
-//            mergeEnvironmentProvidedMemberMetadata();
-        }
 
         if (properties.getBoolean(SHUTDOWNHOOK_ENABLED)) {
             logger.finest("Adding ShutdownHook");

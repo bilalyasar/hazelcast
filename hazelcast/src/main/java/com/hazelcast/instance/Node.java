@@ -190,6 +190,7 @@ public class Node {
             textCommandService = new TextCommandServiceImpl(this);
             multicastService = createMulticastService(addressPicker.getBindAddress(), this, config, logger);
             discoveryService = createDiscoveryService(config);
+            mergeEnvironmentProvidedMemberMetadata();
             joiner = nodeContext.createJoiner(this);
         } catch (Throwable e) {
             try {
@@ -221,7 +222,6 @@ public class Node {
                 .setDiscoveryMode(DiscoveryMode.Member)
                 .setDiscoveryConfig(discoveryConfig).setDiscoveryNode(
                         new SimpleDiscoveryNode(localMember.getAddress(), localMember.getAttributes()));
-
         return factory.newDiscoveryService(settings);
     }
 
@@ -349,7 +349,7 @@ public class Node {
             discoveryService.start();
 
             // Discover local metadata from environment and merge into member attributes
-            mergeEnvironmentProvidedMemberMetadata();
+//            mergeEnvironmentProvidedMemberMetadata();
         }
 
         if (properties.getBoolean(SHUTDOWNHOOK_ENABLED)) {

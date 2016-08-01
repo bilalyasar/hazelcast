@@ -30,6 +30,7 @@ import java.util.Set;
  * ZoneAwareMemberGroupFactory is responsible for MemberGroups
  * creation according to the host metadata provided by
  * {@link DiscoveryStrategy#discoverLocalMetadata()}
+ *
  * @since 3.7
  */
 
@@ -39,11 +40,11 @@ public class ZoneAwareMemberGroupFactory extends BackupSafeMemberGroupFactory im
     protected Set<MemberGroup> createInternalMemberGroups(Collection<? extends Member> allMembers) {
         Map<String, MemberGroup> groups = new HashMap<String, MemberGroup>();
         for (Member member : allMembers) {
-
+            System.out.println(member.getAddress());
             final String zoneInfo = member.getStringAttribute(PartitionGroupMetaData.PARTITION_GROUP_ZONE);
             final String rackInfo = member.getStringAttribute(PartitionGroupMetaData.PARTITION_GROUP_RACK);
             final String hostInfo = member.getStringAttribute(PartitionGroupMetaData.PARTITION_GROUP_HOST);
-
+            System.out.println("zoneinfo= " + zoneInfo + " rackinfo= " + rackInfo + " hostinfo= " + hostInfo);
             if (zoneInfo == null && rackInfo == null && hostInfo == null) {
                 throw new IllegalArgumentException("Not enough metadata information is provided. "
                         + "At least one of availability zone, rack or host information must be provided "

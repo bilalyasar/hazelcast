@@ -340,8 +340,9 @@ public class Node {
             discoveryService.start();
 
             // Discover local metadata from environment and merge into member attributes
-            System.out.println("merge environment provided member data");
+
             mergeEnvironmentProvidedMemberMetadata();
+            System.out.println("merge environment provided member data " + localMember.getAttributes().size());
         }
         nodeEngine.start();
         initializeListeners(config);

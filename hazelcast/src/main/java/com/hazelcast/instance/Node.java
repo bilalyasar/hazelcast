@@ -336,6 +336,12 @@ public class Node {
     }
 
     void start() {
+        if (properties.getBoolean(DISCOVERY_SPI_ENABLED)) {
+            discoveryService.start();
+
+            // Discover local metadata from environment and merge into member attributes
+            mergeEnvironmentProvidedMemberMetadata();
+        }
         nodeEngine.start();
         initializeListeners(config);
         connectionManager.start();
@@ -345,12 +351,7 @@ public class Node {
                     hazelcastThreadGroup.getThreadNamePrefix("MulticastThread"));
             multicastServiceThread.start();
         }
-        if (properties.getBoolean(DISCOVERY_SPI_ENABLED)) {
-            discoveryService.start();
 
-            // Discover local metadata from environment and merge into member attributes
-            mergeEnvironmentProvidedMemberMetadata();
-        }
 
         if (properties.getBoolean(SHUTDOWNHOOK_ENABLED)) {
             logger.finest("Adding ShutdownHook");

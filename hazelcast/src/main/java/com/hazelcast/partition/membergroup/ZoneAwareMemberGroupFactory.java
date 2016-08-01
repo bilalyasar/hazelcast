@@ -41,6 +41,7 @@ public class ZoneAwareMemberGroupFactory extends BackupSafeMemberGroupFactory im
         Map<String, MemberGroup> groups = new HashMap<String, MemberGroup>();
         for (Member member : allMembers) {
             System.out.println(member.getAddress());
+            System.out.println("is local member: " + member.localMember());
             final String zoneInfo = member.getStringAttribute(PartitionGroupMetaData.PARTITION_GROUP_ZONE);
             final String rackInfo = member.getStringAttribute(PartitionGroupMetaData.PARTITION_GROUP_RACK);
             final String hostInfo = member.getStringAttribute(PartitionGroupMetaData.PARTITION_GROUP_HOST);
